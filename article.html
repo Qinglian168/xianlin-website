@@ -302,7 +302,7 @@ function renderArticle(article, articles) {
   } catch (e) {}
   if (!articles.length) {
     document.querySelector('.article-wrap').innerHTML =
-      '<div style="padding:80px 0;text-align:center;color:#64748b;">新闻数据加载失败，请通过 http://localhost:8080 访问本站。</div>';
+      '<div style="padding:80px 0;text-align:center;color:#64748b;">新闻数据加载失败，请刷新页面重试（本地预览请通过 http://localhost:8080 访问）。</div>';
     return;
   }
   const article = articles.find(a => a.id === rawId) || articles[0];
