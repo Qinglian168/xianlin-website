@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>网站后台管理 | 贤霖科技</title>
+<style>
+  :root {
+    --primary: #0ea5e9;
+    --primary-dark: #0284c7;
+    --primary-light: #7dd3fc;
+    --bg: #f0f9ff;
+    --card: #ffffff;
+    --text: #1e293b;
+    --text-light: #64748b;
+    --border: #e2e8f0;
+    --danger: #ef4444;
+    --danger-dark: #dc2626;
+    --success: #22c55e;
+    --radius: 12px;
+    --shadow: 0 4px 20px rgba(2, 132, 199, 0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+  }
+  button { font-family: inherit; cursor: pointer; }
+  input, select, textarea { font-family: inherit; font-size: 14px; }
+
+  /* ===== 登录 ===== */
+  #login-view {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+  }
+  .login-card {
+    background: var(--card);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    padding: 40px 36px;
+    width: 380px;
+    text-align: center;
+  }
+  .login-card .logo {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 26px; font-weight: 800; margin-bottom: 16px;
+  }
+  .login-card h1 { font-size: 20px; margin-bottom: 6px; }
+  .login-card p { color: var(--text-light); font-size: 13px; margin-bottom: 24px; }
+  .login-card input {
+    width: 100%; padding: 12px 14px; border: 1px solid var(--border);
+    border-radius: 8px; margin-bottom: 14px; outline: none;
+  }
+  .login-card input:focus { border-color: var(--primary); }
+  .login-card .btn-primary { width: 100%; }
+  .login-error { color: var(--danger); font-size: 13px; margin-bottom: 10px; min-height: 18px; }
+
+  /* ===== 按钮 ===== */
+  .btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff; border: none; padding: 10px 22px; border-radius: 8px;
+    font-size: 14px; font-weight: 600; transition: opacity .2s;
+  }
+  .btn-primary:hover { opacity: .88; }
+  .btn-outline {
+    background: #fff; color: var(--primary-dark); border: 1px solid var(--primary);
+    padding: 8px 18px; border-radius: 8px; font-size: 14px; transition: background .2s;
+  }
+  .btn-outline:hover { background: #e0f2fe; }
+  .btn-danger {
+    background: #fff; color: var(--danger); border: 1px solid #fecaca;
+    padding: 8px 18px; border-radius: 8px; font-size: 14px; transition: background .2s;
+  }
+  .btn-danger:hover { background: #fef2f2; }
+  .btn-sm { padding: 5px 12px; font-size: 13px; border-radius: 6px; }
+  .btn-success {
+    background: var(--success); color: #fff; border: none;
+    padding: 10px 22px; border-radius: 8px; font-size: 14px; font-weight: 600;
+  }
+
+  /* ===== 管理主界面 ===== */
+  #admin-view { display: none; min-height: 100vh; }
+  .admin-header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff; padding: 14px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .admin-header .brand { display: flex; align-items: center; gap: 12px; }
+  .admin-header .brand img { width: 36px; height: 36px; border-radius: 8px; }
+  .admin-header .brand h1 { font-size: 17px; font-weight: 700; }
+  .admin-header .actions { display: flex; gap: 10px; }
+  .admin-header .actions a, .admin-header .actions button {
+    background: rgba(255,255,255,0.16); color: #fff; border: 1px solid rgba(255,255,255,0.35);
+    padding: 7px 14px; border-radius: 8px; font-size: 13px; text-decoration: none;
+  }
+  .admin-header .actions button:hover, .admin-header .actions a:hover { background: rgba(255,255,255,0.28); }
+
+  .tabs {
+    background: #fff; border-bottom: 1px solid var(--border);
+    padding: 0 28px; display: flex; gap: 6px;
+  }
+  .tabs button {
+    background: none; border: none; padding: 14px 18px;
+    font-size: 15px; color: var(--text-light); border-bottom: 3px solid transparent;
+  }
+  .tabs button.active { color: var(--primary-dark); font-weight: 600; border-bottom-color: var(--primary); }
+
+  .admin-main { max-width: 1100px; margin: 24px auto; padding: 0 24px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .panel-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+  .panel-head h2 { font-size: 18px; }
+
+  /* ===== 表格 ===== */
+  .table-wrap { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    background: #f8fafc; text-align: left; padding: 12px 16px;
+    color: var(--text-light); font-size: 13px; font-weight: 600;
+    border-bottom: 1px solid var(--border);
+  }
+  tbody td { padding: 12px 16px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+  tbody tr:hover { background: #f8fafc; }
+  .thumb { width: 52px; height: 52px; border-radius: 8px; object-fit: cover; background: #f1f5f9; }
+  .row-title { font-weight: 600; }
+  .row-sub { color: var(--text-light); font-size: 12px; margin-top: 2px; }
+  .badge {
+    display: inline-block; background: #e0f2fe; color: var(--primary-dark);
+    padding: 3px 10px; border-radius: 20px; font-size: 12px;
+  }
+  .op-btns { display: flex; gap: 8px; }
+
+  /* ===== 模态 ===== */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.5);
+    z-index: 100; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 40px 16px;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: #fff; border-radius: 14px; width: 100%; max-width: 640px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25); padding: 28px;
+  }
+  .modal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .modal-head h3 { font-size: 18px; }
+  .modal-close { background: none; border: none; font-size: 22px; color: var(--text-light); }
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .form-group .hint { font-size: 12px; color: var(--text-light); margin-top: 4px; }
+  .form-group input[type=text], .form-group input[type=password], .form-group input[type=date],
+  .form-group select, .form-group textarea {
+    width: 100%; padding: 10px 12px; border: 1px solid var(--border);
+    border-radius: 8px; outline: none; transition: border-color .2s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary); }
+  .form-group textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px; }
+
+  /* ===== 动态行（规格/场景） ===== */
+  .dyn-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; }
+  .dyn-row input { flex: 1; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; outline: none; }
+  .dyn-row input:focus { border-color: var(--primary); }
+  .dyn-del { background: none; border: none; color: var(--danger); font-size: 18px; padding: 4px 8px; }
+  .dyn-add { color: var(--primary-dark); background: #e0f2fe; border: none; border-radius: 6px; padding: 7px 14px; font-size: 13px; }
+
+  /* ===== 图片上传 ===== */
+  .img-upload { display: flex; gap: 16px; align-items: center; }
+  .img-preview {
+    width: 90px; height: 90px; border-radius: 10px; border: 1px dashed var(--border);
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+    background: #f8fafc; color: var(--text-light); font-size: 12px; text-align: center;
+  }
+  .img-preview img { width: 100%; height: 100%; object-fit: contain; }
+  .img-controls { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  .img-controls input[type=text] { padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; outline: none; }
+  .upload-btn { position: relative; overflow: hidden; }
+  .upload-btn input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+
+  .toast {
+    position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
+    background: #0f172a; color: #fff; padding: 12px 26px; border-radius: 10px;
+    font-size: 14px; z-index: 200; opacity: 0; transition: opacity .25s; pointer-events: none;
+  }
+  .toast.show { opacity: 1; }
+  .toast.success { background: #059669; }
+  .toast.error { background: #dc2626; }
+
+  .empty-tip { text-align: center; color: var(--text-light); padding: 60px 0; }
+  .loading-tip { text-align: center; color: var(--text-light); padding: 40px 0; }
+  .sub-text { color: var(--text-light); font-size: 13px; line-height: 1.8; }
+  .settings-card {
+    background: #fff; border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 28px; max-width: 480px;
+  }
+  .settings-card h3 { font-size: 16px; margin-bottom: 16px; }
+
+  /* ===== 访问统计 ===== */
+  .stat-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 18px; }
+  .stat-card {
+    background: #fff; border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 18px 20px; position: relative; overflow: hidden;
+  }
+  .stat-card .stat-label { font-size: 13px; color: var(--text-light); margin-bottom: 8px; }
+  .stat-card .stat-value { font-size: 28px; font-weight: 800; color: var(--primary-dark); }
+  .stat-card .stat-sub { font-size: 12px; color: var(--text-light); margin-top: 6px; }
+  .stat-card .stat-ico {
+    position: absolute; right: 12px; top: 14px; width: 40px; height: 40px; border-radius: 10px;
+    background: linear-gradient(135deg, #e0f2fe, #bae6fd); color: var(--primary-dark);
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
+  }
+  .stat-panel { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px; margin-bottom: 18px; }
+  .stat-panel h3 { font-size: 15px; margin-bottom: 16px; color: var(--text); }
+  .chart-wrap { display: flex; align-items: flex-end; gap: 12px; height: 180px; padding-top: 10px; }
+  .chart-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 6px; }
+  .chart-bar {
+    width: 100%; max-width: 46px; border-radius: 6px 6px 0 0;
+    background: linear-gradient(180deg, #38bdf8, #0284c7);
+    min-height: 2px; transition: height .4s ease;
+    position: relative;
+  }
+  .chart-bar .bar-val {
+    position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+    font-size: 11px; color: var(--primary-dark); font-weight: 600; white-space: nowrap;
+  }
+  .chart-col .bar-day { font-size: 12px; color: var(--text-light); }
+  .chart-col.today .bar-day { color: var(--primary-dark); font-weight: 700; }
+  .stat-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 860px) {
+    .stat-cards { grid-template-columns: repeat(2, 1fr); }
+    .stat-cols { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .stat-cards { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .stat-card .stat-value { font-size: 22px; }
+  }
+  @media (max-width: 640px) {
+    .form-row { grid-template-columns: 1fr; }
+    .admin-main { padding: 0 12px; }
+    .tabs { padding: 0 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== 登录 ===== -->
+<div id="login-view">
+  <div class="login-card">
+    <div class="logo">贤</div>
+    <h1>贤霖科技 · 网站后台管理</h1>
+    <p>请输入管理密码登录</p>
+    <input type="password" id="login-password" placeholder="管理密码" autocomplete="current-password">
+    <div class="login-error" id="login-error"></div>
+    <button class="btn-primary" id="login-btn">登 录</button>
+  </div>
+</div>
+
+<!-- ===== 管理主界面 ===== -->
+<div id="admin-view">
+  <header class="admin-header">
+    <div class="brand">
+      <img src="images/logo.jpg" alt="logo">
+      <h1>贤霖科技 · 网站后台管理</h1>
+    </div>
+    <div class="actions">
+      <a href="index.html" target="_blank">查看网站 ↗</a>
+      <button id="logout-btn">退出登录</button>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="active" data-tab="products">产品管理</button>
+    <button data-tab="news">新闻管理</button>
+    <button data-tab="stats">访问统计</button>
+    <button data-tab="settings">系统设置</button>
+  </nav>
+
+  <main class="admin-main">
+
+    <!-- 产品管理 -->
+    <section class="tab-panel active" id="tab-products">
+      <div class="panel-head">
+        <h2>产品管理（<span id="product-count">0</span>）</h2>
+        <button class="btn-primary" id="add-product-btn">＋ 新增产品</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>图片</th><th>产品名称</th><th>品牌</th><th>分类</th><th style="width:150px;">操作</th></tr>
+          </thead>
+          <tbody id="product-tbody"></tbody>
+        </table>
+      </div>
+      <div class="loading-tip" id="product-loading">加载中…</div>
+    </section>
+
+    <!-- 新闻管理 -->
+    <section class="tab-panel" id="tab-news">
+      <div class="panel-head">
+        <h2>新闻管理（<span id="news-count">0</span>）</h2>
+        <button class="btn-primary" id="add-news-btn">＋ 新增新闻</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>标题</th><th>日期</th><th>分类</th><th style="width:150px;">操作</th></tr>
+          </thead>
+          <tbody id="news-tbody"></tbody>
+        </table>
+      </div>
+      <div class="loading-tip" id="news-loading">加载中…</div>
+    </section>
+
+    <!-- 访问统计 -->
+    <section class="tab-panel" id="tab-stats">
+      <div class="panel-head">
+        <h2>访问统计</h2>
+        <button class="btn-outline btn-sm" id="stats-refresh">刷新数据</button>
+      </div>
+
+      <div class="stat-cards">
+        <div class="stat-card">
+          <div class="stat-ico">📈</div>
+          <div class="stat-label">今日访问量（PV）</div>
+          <div class="stat-value" id="st-today-pv">-</div>
+          <div class="stat-sub" id="st-today-sub">-</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-ico">👤</div>
+          <div class="stat-label">今日访客数（UV）</div>
+          <div class="stat-value" id="st-today-uv">-</div>
+          <div class="stat-sub">独立访客（按浏览器去重）</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-ico">⏱️</div>
+          <div class="stat-label">平均停留时长</div>
+          <div class="stat-value" id="st-avg-dur">-</div>
+          <div class="stat-sub" id="st-avg-sub">-</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-ico">📊</div>
+          <div class="stat-label">累计访问量</div>
+          <div class="stat-value" id="st-total-pv">-</div>
+          <div class="stat-sub" id="st-total-sub">-</div>
+        </div>
+      </div>
+
+      <div class="stat-panel">
+        <h3>最近 7 天访问趋势</h3>
+        <div class="chart-wrap" id="st-chart"></div>
+      </div>
+
+      <div class="stat-cols">
+        <div class="stat-panel">
+          <h3>页面访问排行（近 7 天）</h3>
+          <div class="table-wrap" style="box-shadow:none;border:1px solid var(--border);">
+            <table>
+              <thead><tr><th>页面</th><th style="width:80px;">访问量</th></tr></thead>
+              <tbody id="st-pages-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="stat-panel">
+          <h3>最近访问记录</h3>
+          <div class="table-wrap" style="box-shadow:none;border:1px solid var(--border);">
+            <table>
+              <thead><tr><th>页面</th><th>时间</th><th>停留</th></tr></thead>
+              <tbody id="st-recent-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="loading-tip" id="stats-loading" style="display:none;">加载统计中…</div>
+    </section>
+
+    <!-- 设置 -->
+    <section class="tab-panel" id="tab-settings">
+      <div class="settings-card">
+        <h3>修改管理密码</h3>
+        <div class="form-group">
+          <label>新密码</label>
+          <input type="password" id="new-password" placeholder="请输入新密码（至少 6 位）">
+        </div>
+        <div class="form-group">
+          <label>确认新密码</label>
+          <input type="password" id="confirm-password" placeholder="再次输入新密码">
+        </div>
+        <button class="btn-primary" id="save-password-btn">保存新密码</button>
+        <p class="sub-text" style="margin-top:24px;">提示：修改后请记住新密码，下次登录使用新密码。产品与新闻数据保存在项目 data/ 目录下的 JSON 文件中。</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ===== 产品表单模态 ===== -->
+<div class="modal-overlay" id="product-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="product-modal-title">新增产品</h3>
+      <button class="modal-close" data-close="product-modal">×</button>
+    </div>
+    <form id="product-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>产品名称 *</label>
+          <input type="text" id="p-name" placeholder="如：华为 S5731-S 系列交换机">
+        </div>
+        <div class="form-group">
+          <label>品牌 *</label>
+          <input type="text" id="p-brand" placeholder="如：Huawei / H3C / Cisco">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>所属分类 *</label>
+          <select id="p-category">
+            <option value="switch">交换机</option>
+            <option value="router">路由器</option>
+            <option value="ap">无线AP</option>
+            <option value="security">安全设备</option>
+            <option value="server">服务器</option>
+            <option value="surveillance">安防监控</option>
+            <option value="conference">视频会议</option>
+            <option value="datacenter">机房配套</option>
+            <option value="cabling">综合布线</option>
+            <option value="optical">光通信</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>产品图片</label>
+          <div class="img-upload">
+            <div class="img-preview" id="p-image-preview">暂无图片</div>
+            <div class="img-controls">
+              <button type="button" class="btn-outline upload-btn btn-sm">上传图片<input type="file" id="p-image-file" accept="image/*"></button>
+              <input type="text" id="p-image-url" placeholder="或粘贴图片网址（images/...）">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>产品描述 *</label>
+        <textarea id="p-desc" rows="3" placeholder="一句话介绍产品的核心卖点"></textarea>
+      </div>
+      <div class="form-group">
+        <label>规格参数</label>
+        <div id="p-specs-rows"></div>
+        <button type="button" class="dyn-add" id="add-spec-btn">＋ 添加参数</button>
+      </div>
+      <div class="form-group">
+        <label>适用场景</label>
+        <div id="p-scenario-rows"></div>
+        <button type="button" class="dyn-add" id="add-scenario-btn">＋ 添加场景</button>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn-outline" data-close="product-modal">取消</button>
+        <button type="submit" class="btn-primary">保存产品</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===== 新闻表单模态 ===== -->
+<div class="modal-overlay" id="news-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="news-modal-title">新增新闻</h3>
+      <button class="modal-close" data-close="news-modal">×</button>
+    </div>
+    <form id="news-form">
+      <div class="form-group">
+        <label>新闻标题 *</label>
+        <input type="text" id="n-title" placeholder="请输入新闻标题">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>发布日期 *</label>
+          <input type="date" id="n-date">
+        </div>
+        <div class="form-group">
+          <label>分类标签 *</label>
+          <input type="text" id="n-tag" list="tag-options" placeholder="如：行业动态">
+          <datalist id="tag-options">
+            <option value="行业动态"></option>
+            <option value="公司资讯"></option>
+            <option value="产品资讯"></option>
+            <option value="技术分享"></option>
+          </datalist>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>摘要 *（列表页显示）</label>
+        <textarea id="n-summary" rows="3" placeholder="一段话概括新闻内容"></textarea>
+      </div>
+      <div class="form-group">
+        <label>正文内容 *（每行一段，空行会被忽略）</label>
+        <textarea id="n-body" rows="10" placeholder="第一段内容&#10;第二段内容&#10;&#10;H3:小标题（可选，行首加 H3:）&#10;TIP:提示框内容（可选，行首加 TIP:）"></textarea>
+        <div class="hint">每行一段；行首加 <b>H3:</b> 显示为小标题，加 <b>TIP:</b> 显示为蓝色提示框</div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn-outline" data-close="news-modal">取消</button>
+        <button type="submit" class="btn-primary">保存新闻</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============ 工具 ============
+const $ = (id) => document.getElementById(id);
+let TOKEN = sessionStorage.getItem('xianlin_admin_token') || '';
+
+function escapeHtml(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function showToast(msg, type) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + (type || '');
+  setTimeout(() => { t.className = 'toast'; }, 2400);
+}
+
+async function api(path, options) {
+  const headers = { 'Content-Type': 'application/json' };
+  if (TOKEN) headers['Authorization'] = 'Bearer ' + TOKEN;
+  const res = await fetch(path, Object.assign({}, options, { headers }));
+  let json = null;
+  try { json = await res.json(); } catch (e) {}
+  if (res.status === 401) {
+    showToast('登录已过期，请重新登录', 'error');
+    setTimeout(showLogin, 800);
+    throw new Error('unauthorized');
+  }
+  if (!res.ok) throw new Error((json && json.error) || '请求失败');
+  return json;
+}
+
+// ============ 登录 ============
+function showLogin() {
+  sessionStorage.removeItem('xianlin_admin_token');
+  TOKEN = '';
+  $('login-view').style.display = 'flex';
+  $('admin-view').style.display = 'none';
+}
+
+async function doLogin() {
+  const password = $('login-password').value;
+  $('login-error').textContent = '';
+  try {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password })
+    });
+    const json = await res.json();
+    if (!res.ok || !json.token) {
+      $('login-error').textContent = '密码错误，请重试';
+      return;
+    }
+    TOKEN = json.token;
+    sessionStorage.setItem('xianlin_admin_token', TOKEN);
+    $('login-view').style.display = 'none';
+    $('admin-view').style.display = 'block';
+    loadProducts();
+    loadNews();
+  } catch (e) {
+    $('login-error').textContent = '无法连接服务器，请确认已启动 node server.js';
+  }
+}
+
+$('login-btn').addEventListener('click', doLogin);
+$('login-password').addEventListener('keydown', (e) => { if (e.key === 'Enter') doLogin(); });
+$('logout-btn').addEventListener('click', showLogin);
+
+// 已登录则直接进入
+if (TOKEN) {
+  $('login-view').style.display = 'none';
+  $('admin-view').style.display = 'block';
+  loadProducts();
+  loadNews();
+}
+
+// ============ Tab 切换 ============
+document.querySelectorAll('.tabs button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    $('tab-' + btn.dataset.tab).classList.add('active');
+    if (btn.dataset.tab === 'stats') loadStats();
+  });
+});
+
+// ============ 模态开关 ============
+document.querySelectorAll('[data-close]').forEach(el => {
+  el.addEventListener('click', () => $('' + el.dataset.close).classList.remove('show'));
+});
+document.querySelectorAll('.modal-overlay').forEach(ov => {
+  ov.addEventListener('click', (e) => { if (e.target === ov) ov.classList.remove('show'); });
+});
+function openModal(id) { $(id).classList.add('show'); }
+
+// ============ 产品管理 ============
+const CATEGORY_NAMES = {
+  switch: '交换机', router: '路由器', ap: '无线AP', security: '安全设备',
+  server: '服务器', surveillance: '安防监控', conference: '视频会议',
+  datacenter: '机房配套', cabling: '综合布线', optical: '光通信'
+};
+let products = [];
+let editingProductId = null;
+
+async function loadProducts() {
+  $('product-loading').style.display = 'block';
+  try {
+    const json = await api('/api/products');
+    products = json.data || [];
+    renderProducts();
+  } catch (e) {}
+  $('product-loading').style.display = 'none';
+}
+
+function renderProducts() {
+  $('product-count').textContent = products.length;
+  const tbody = $('product-tbody');
+  if (!products.length) {
+    tbody.innerHTML = '<tr><td colspan="5" class="empty-tip">暂无产品，点击右上角"新增产品"开始添加</td></tr>';
+    return;
+  }
+  tbody.innerHTML = products.map(p => `
+    <tr>
+      <td><img class="thumb" src="${escapeHtml(p.image)}" onerror="this.style.visibility='hidden'"></td>
+      <td>
+        <div class="row-title">${escapeHtml(p.name)}</div>
+        <div class="row-sub">${escapeHtml(p.desc || '').slice(0, 40)}${(p.desc||'').length > 40 ? '…' : ''}</div>
+      </td>
+      <td><span class="badge">${escapeHtml(p.brand)}</span></td>
+      <td>${CATEGORY_NAMES[p.category] || escapeHtml(p.category)}</td>
+      <td>
+        <div class="op-btns">
+          <button class="btn-outline btn-sm" onclick="openProductModal(${p.id})">编辑</button>
+          <button class="btn-danger btn-sm" onclick="deleteProduct(${p.id})">删除</button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+// 规格参数动态行
+function addSpecRow(key, value) {
+  const row = document.createElement('div');
+  row.className = 'dyn-row';
+  row.innerHTML = `<input type="text" class="spec-key" placeholder="参数名，如：端口" value="${escapeHtml(key || '')}">
+    <input type="text" class="spec-val" placeholder="参数值，如：24口千兆" value="${escapeHtml(value || '')}">
+    <button type="button" class="dyn-del" onclick="this.parentNode.remove()">×</button>`;
+  $('p-specs-rows').appendChild(row);
+}
+function addScenarioRow(val) {
+  const row = document.createElement('div');
+  row.className = 'dyn-row';
+  row.innerHTML = `<input type="text" class="scenario-val" placeholder="场景，如：企业办公网络" value="${escapeHtml(val || '')}">
+    <button type="button" class="dyn-del" onclick="this.parentNode.remove()">×</button>`;
+  $('p-scenario-rows').appendChild(row);
+}
+$('add-spec-btn').addEventListener('click', () => addSpecRow());
+$('add-scenario-btn').addEventListener('click', () => addScenarioRow());
+
+// 图片上传
+$('p-image-file').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { showToast('图片不能超过 5MB', 'error'); return; }
+  const reader = new FileReader();
+  reader.onload = async () => {
+    try {
+      showToast('上传中…');
+      const json = await api('/api/upload', {
+        method: 'POST',
+        body: JSON.stringify({ filename: file.name, data: reader.result })
+      });
+      $('p-image-url').value = json.url;
+      $('p-image-preview').innerHTML = `<img src="${json.url}">`;
+      showToast('图片上传成功', 'success');
+    } catch (err) { showToast('上传失败：' + err.message, 'error'); }
+  };
+  reader.readAsDataURL(file);
+});
+$('p-image-url').addEventListener('input', () => {
+  const v = $('p-image-url').value.trim();
+  $('p-image-preview').innerHTML = v ? `<img src="${v}">` : '暂无图片';
+});
+
+function openProductModal(id) {
+  editingProductId = id;
+  $('p-specs-rows').innerHTML = '';
+  $('p-scenario-rows').innerHTML = '';
+  if (id) {
+    const p = products.find(x => x.id === id);
+    if (!p) return;
+    $('product-modal-title').textContent = '编辑产品';
+    $('p-name').value = p.name || '';
+    $('p-brand').value = p.brand || '';
+    $('p-category').value = p.category || 'switch';
+    $('p-desc').value = p.desc || '';
+    $('p-image-url').value = p.image || '';
+    $('p-image-preview').innerHTML = p.image ? `<img src="${p.image}">` : '暂无图片';
+    Object.entries(p.specs || {}).forEach(([k, v]) => addSpecRow(k, v));
+    (p.scenarios || []).forEach(s => addScenarioRow(s));
+    if (!Object.keys(p.specs || {}).length) addSpecRow();
+    if (!(p.scenarios || []).length) addScenarioRow();
+  } else {
+    $('product-modal-title').textContent = '新增产品';
+    $('product-form').reset();
+    $('p-image-preview').innerHTML = '暂无图片';
+    addSpecRow();
+    addScenarioRow();
+  }
+  openModal('product-modal');
+}
+$('add-product-btn').addEventListener('click', () => openProductModal(null));
+
+$('product-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const name = $('p-name').value.trim();
+  const brand = $('p-brand').value.trim();
+  const desc = $('p-desc').value.trim();
+  if (!name || !brand || !desc) { showToast('请填写产品名称、品牌和描述', 'error'); return; }
+  const specs = {};
+  document.querySelectorAll('#p-specs-rows .dyn-row').forEach(row => {
+    const k = row.querySelector('.spec-key').value.trim();
+    const v = row.querySelector('.spec-val').value.trim();
+    if (k) specs[k] = v;
+  });
+  const scenarios = [];
+  document.querySelectorAll('#p-scenario-rows .dyn-row').forEach(row => {
+    const v = row.querySelector('.scenario-val').value.trim();
+    if (v) scenarios.push(v);
+  });
+  const payload = {
+    name, brand, desc,
+    category: $('p-category').value,
+    image: $('p-image-url').value.trim() || '',
+    specs, scenarios
+  };
+  try {
+    if (editingProductId) {
+      await api('/api/products/' + editingProductId, { method: 'PUT', body: JSON.stringify(payload) });
+      showToast('产品已更新', 'success');
+    } else {
+      await api('/api/products', { method: 'POST', body: JSON.stringify(payload) });
+      showToast('产品已添加', 'success');
+    }
+    $('product-modal').classList.remove('show');
+    loadProducts();
+  } catch (err) { showToast('保存失败：' + err.message, 'error'); }
+});
+
+async function deleteProduct(id) {
+  const p = products.find(x => x.id === id);
+  if (!confirm('确定删除产品「' + (p ? p.name : id) + '」吗？删除后不可恢复！')) return;
+  try {
+    await api('/api/products/' + id, { method: 'DELETE' });
+    showToast('已删除', 'success');
+    loadProducts();
+  } catch (err) { showToast('删除失败：' + err.message, 'error'); }
+}
+
+// ============ 新闻管理 ============
+let news = [];
+let editingNewsId = null;
+
+async function loadNews() {
+  $('news-loading').style.display = 'block';
+  try {
+    const json = await api('/api/news');
+    news = json.data || [];
+    renderNews();
+  } catch (e) {}
+  $('news-loading').style.display = 'none';
+}
+
+function renderNews() {
+  $('news-count').textContent = news.length;
+  const tbody = $('news-tbody');
+  if (!news.length) {
+    tbody.innerHTML = '<tr><td colspan="4" class="empty-tip">暂无新闻，点击右上角"新增新闻"开始添加</td></tr>';
+    return;
+  }
+  tbody.innerHTML = news.map(a => `
+    <tr>
+      <td>
+        <div class="row-title">${escapeHtml(a.title)}</div>
+        <div class="row-sub">${escapeHtml(a.summary || '').slice(0, 50)}${(a.summary||'').length > 50 ? '…' : ''}</div>
+      </td>
+      <td>${escapeHtml(a.date)}</td>
+      <td><span class="badge">${escapeHtml(a.tag)}</span></td>
+      <td>
+        <div class="op-btns">
+          <button class="btn-outline btn-sm" onclick="openNewsModal(${a.id})">编辑</button>
+          <button class="btn-danger btn-sm" onclick="deleteNews(${a.id})">删除</button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+function openNewsModal(id) {
+  editingNewsId = id;
+  if (id) {
+    const a = news.find(x => x.id === id);
+    if (!a) return;
+    $('news-modal-title').textContent = '编辑新闻';
+    $('n-title').value = a.title || '';
+    $('n-date').value = a.date || '';
+    $('n-tag').value = a.tag || '';
+    $('n-summary').value = a.summary || '';
+    $('n-body').value = (a.body || []).join('\n');
+  } else {
+    $('news-modal-title').textContent = '新增新闻';
+    $('news-form').reset();
+    $('n-date').value = new Date().toISOString().slice(0, 10);
+  }
+  openModal('news-modal');
+}
+$('add-news-btn').addEventListener('click', () => openNewsModal(null));
+
+$('news-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const title = $('n-title').value.trim();
+  const date = $('n-date').value;
+  const tag = $('n-tag').value.trim();
+  const summary = $('n-summary').value.trim();
+  if (!title || !date || !tag || !summary) { showToast('请填写标题、日期、分类和摘要', 'error'); return; }
+  const body = $('n-body').value.split('\n').map(s => s.trim()).filter(s => s.length > 0);
+  if (!body.length) { showToast('请填写正文内容', 'error'); return; }
+  const payload = { title, date, tag, summary, body };
+  try {
+    if (editingNewsId) {
+      await api('/api/news/' + editingNewsId, { method: 'PUT', body: JSON.stringify(payload) });
+      showToast('新闻已更新', 'success');
+    } else {
+      await api('/api/news', { method: 'POST', body: JSON.stringify(payload) });
+      showToast('新闻已发布', 'success');
+    }
+    $('news-modal').classList.remove('show');
+    loadNews();
+  } catch (err) { showToast('保存失败：' + err.message, 'error'); }
+});
+
+async function deleteNews(id) {
+  const a = news.find(x => x.id === id);
+  if (!confirm('确定删除新闻「' + (a ? a.title.slice(0, 20) : id) + '」吗？删除后不可恢复！')) return;
+  try {
+    await api('/api/news/' + id, { method: 'DELETE' });
+    showToast('已删除', 'success');
+    loadNews();
+  } catch (err) { showToast('删除失败：' + err.message, 'error'); }
+}
+
+// ============ 访问统计 ============
+function fmtDur(sec) {
+  sec = Math.max(0, parseInt(sec, 10) || 0);
+  if (sec < 60) return sec + ' 秒';
+  const m = Math.floor(sec / 60), s = sec % 60;
+  return m + ' 分 ' + (s ? s + ' 秒' : '');
+}
+
+function fmtTime(ts) {
+  const d = new Date(ts);
+  const now = new Date();
+  const pad = (n) => String(n).padStart(2, '0');
+  const hm = pad(d.getHours()) + ':' + pad(d.getMinutes());
+  if (d.toDateString() === now.toDateString()) return '今天 ' + hm;
+  return (d.getMonth() + 1) + '/' + d.getDate() + ' ' + hm;
+}
+
+async function loadStats() {
+  $('stats-loading').style.display = 'block';
+  try {
+    const json = await api('/api/stats/summary');
+    renderStats(json.data);
+  } catch (e) {}
+  $('stats-loading').style.display = 'none';
+}
+
+function renderStats(s) {
+  if (!s) return;
+  // 顶部四卡片
+  $('st-today-pv').textContent = s.today.pv;
+  $('st-today-sub').textContent = '昨日 ' + s.yesterday.pv + ' 次';
+  $('st-today-uv').textContent = s.today.uv;
+  $('st-avg-dur').textContent = fmtDur(s.avgDuration);
+  $('st-avg-sub').textContent = '今日平均 ' + fmtDur(s.today.avgDuration);
+  $('st-total-pv').textContent = s.totalPV;
+  $('st-total-sub').textContent = '累计访客 ' + s.totalUV + ' 人 · ' + s.totalDays + ' 天';
+
+  // 7 天柱状图
+  const max = Math.max.apply(null, s.week.map(d => d.pv).concat([1]));
+  const todayStr = s.week[s.week.length - 1].date;
+  $('st-chart').innerHTML = s.week.map(d => {
+    const h = Math.max(2, Math.round((d.pv / max) * 140));
+    const isToday = d.date === todayStr;
+    return `<div class="chart-col${isToday ? ' today' : ''}">
+      <div class="chart-bar" style="height:${h}px;" title="${d.date}：${d.pv} 次访问">
+        ${d.pv > 0 ? `<span class="bar-val">${d.pv}</span>` : ''}
+      </div>
+      <div class="bar-day">${d.date.slice(5)}</div>
+    </div>`;
+  }).join('');
+
+  // 页面排行
+  const ptb = $('st-pages-tbody');
+  if (!s.topPages.length) {
+    ptb.innerHTML = '<tr><td colspan="2" class="empty-tip" style="padding:30px 0;">暂无访问数据</td></tr>';
+  } else {
+    ptb.innerHTML = s.topPages.map((p, i) => `
+      <tr>
+        <td><span class="badge" style="margin-right:6px;">${i + 1}</span>${escapeHtml(p.name)}</td>
+        <td><b>${p.pv}</b></td>
+      </tr>`).join('');
+  }
+
+  // 最近访问
+  const rtb = $('st-recent-tbody');
+  if (!s.recent.length) {
+    rtb.innerHTML = '<tr><td colspan="3" class="empty-tip" style="padding:30px 0;">暂无访问记录</td></tr>';
+  } else {
+    rtb.innerHTML = s.recent.map(r => `
+      <tr>
+        <td>${escapeHtml(r.name)}</td>
+        <td>${fmtTime(r.time)}</td>
+        <td>${r.dur ? fmtDur(r.dur) : '<span style="color:var(--text-light)">-</span>'}</td>
+      </tr>`).join('');
+  }
+}
+
+$('stats-refresh').addEventListener('click', loadStats);
+
+// ============ 设置：修改密码 ============
+$('save-password-btn').addEventListener('click', async () => {
+  const p1 = $('new-password').value;
+  const p2 = $('confirm-password').value;
+  if (!p1 || p1.length < 6) { showToast('新密码至少 6 位', 'error'); return; }
+  if (p1 !== p2) { showToast('两次输入的密码不一致', 'error'); return; }
+  try {
+    await api('/api/password', { method: 'POST', body: JSON.stringify({ password: p1 }) });
+    showToast('密码已修改，下次登录请使用新密码', 'success');
+    $('new-password').value = '';
+    $('confirm-password').value = '';
+  } catch (err) { showToast('修改失败：' + err.message, 'error'); }
+});
+</script>
+</body>
+</html>

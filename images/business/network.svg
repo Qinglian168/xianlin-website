@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" fill="none">
+  <g opacity="0.22" stroke="#0ea5e9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 中央核心节点 -->
+    <circle cx="220" cy="160" r="28"/>
+    <circle cx="220" cy="160" r="12" fill="#0ea5e9" stroke="none"/>
+    <!-- 周围节点 -->
+    <circle cx="140" cy="90" r="18"/>
+    <circle cx="80" cy="160" r="18"/>
+    <circle cx="140" cy="230" r="18"/>
+    <circle cx="280" cy="90" r="18"/>
+    <circle cx="280" cy="230" r="18"/>
+    <!-- 连接线 -->
+    <path d="M205 143L154 101"/>
+    <path d="M200 160H98"/>
+    <path d="M205 177L154 219"/>
+    <path d="M235 143L266 101"/>
+    <path d="M240 160H266"/>
+    <path d="M235 177L266 219"/>
+    <!-- 服务器/设备小矩形 -->
+    <rect x="126" y="76" width="28" height="28" rx="4"/>
+    <rect x="66" y="146" width="28" height="28" rx="4"/>
+    <rect x="126" y="216" width="28" height="28" rx="4"/>
+    <rect x="266" y="76" width="28" height="28" rx="4"/>
+    <rect x="266" y="216" width="28" height="28" rx="4"/>
+  </g>
+  <g opacity="0.12" fill="#0ea5e9">
+    <circle cx="60" cy="60" r="10"/>
+    <circle cx="300" cy="280" r="14"/>
+    <circle cx="40" cy="280" r="8"/>
+  </g>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#e0f2fe"/><stop offset="100%" stop-color="#f0f9ff"/></linearGradient></defs>
+  <rect width="400" height="400" fill="url(#bg)"/>
+  <circle cx="200" cy="180" r="55" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <circle cx="200" cy="180" r="42" fill="none" stroke="#22C55E" stroke-width="4"/>
+  <path d="M170 180 Q200 150 230 180" fill="none" stroke="#22C55E" stroke-width="4" stroke-linecap="round"/>
+  <path d="M160 180 Q200 140 240 180" fill="none" stroke="#22C55E" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+  <circle cx="200" cy="205" r="5" fill="#22C55E"/>
+  <text x="200" y="285" text-anchor="middle" font-size="18" font-weight="700" fill="#334155">TL-AP4650GC</text>
+  <text x="200" y="310" text-anchor="middle" font-size="13" fill="#64748b">无线 AP</text>
+</svg>

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" fill="none">
+  <g opacity="0.22" stroke="#0ea5e9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 中心齿轮 -->
+    <circle cx="200" cy="160" r="38"/>
+    <circle cx="200" cy="160" r="18" fill="#0ea5e9" stroke="none"/>
+    <!-- 齿轮齿 -->
+    <rect x="188" y="106" width="24" height="18" rx="2"/>
+    <rect x="188" y="196" width="24" height="18" rx="2"/>
+    <rect x="146" y="148" width="18" height="24" rx="2"/>
+    <rect x="236" y="148" width="18" height="24" rx="2"/>
+    <rect x="158" y="116" width="18" height="16" rx="2" transform="rotate(45 167 124)"/>
+    <rect x="224" y="116" width="18" height="16" rx="2" transform="rotate(-45 233 124)"/>
+    <rect x="158" y="188" width="18" height="16" rx="2" transform="rotate(-45 167 196)"/>
+    <rect x="224" y="188" width="18" height="16" rx="2" transform="rotate(45 233 196)"/>
+    <!-- 外围系统节点 -->
+    <circle cx="100" cy="90" r="20"/>
+    <circle cx="60" cy="180" r="20"/>
+    <circle cx="100" cy="260" r="20"/>
+    <circle cx="280" cy="90" r="18"/>
+    <circle cx="280" cy="240" r="18"/>
+    <!-- 连接线 -->
+    <path d="M173 136L118 103"/>
+    <path d="M170 160H80"/>
+    <path d="M173 184L118 247"/>
+    <path d="M227 136L268 100"/>
+    <path d="M230 160H266"/>
+    <path d="M227 184L268 238"/>
+    <!-- 节点图标 -->
+    <rect x="88" y="78" width="24" height="24" rx="4"/>
+    <rect x="48" y="168" width="24" height="24" rx="4"/>
+    <rect x="88" y="248" width="24" height="24" rx="4"/>
+    <rect x="268" y="78" width="24" height="24" rx="4"/>
+    <rect x="268" y="228" width="24" height="24" rx="4"/>
+  </g>
+  <g opacity="0.12" fill="#0ea5e9">
+    <circle cx="60" cy="60" r="10"/>
+    <circle cx="300" cy="280" r="14"/>
+    <circle cx="40" cy="280" r="8"/>
+  </g>
+</svg>
