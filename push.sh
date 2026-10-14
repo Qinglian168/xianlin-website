@@ -1,100 +1,101 @@
 #!/usr/bin/env bash
 # ============================================================
-# 贤霖科技官网 - 一键推送到 GitHub
-# 用途：日常改完产品/文章/页面后，运行此脚本一键推送到 GitHub
-#       GitHub Actions 检测到推送后会自动构建并部署到 GitHub Pages（1~2 分钟生效）
+# 贤霖科技官网 —— 一键上线
+#
+# 一条命令完成全部工作：
+#   1. 构建静态站（node build.js → dist/）
+#   2. 提交并推送源码到 main 分支（版本备份）
+#   3. 把 dist/ 发布到 gh-pages 分支（GitHub Pages 自动上线）
 #
 # 用法：
-#       bash push.sh "本次改动的简要说明"     # 带说明（最常用）
-#       bash push.sh                          # 不带说明会提示输入
+#   bash push.sh "本次改动的简要说明"     # 带说明（推荐）
+#   bash push.sh                          # 不带说明会提示输入
 #
-# 仓库：https://github.com/Qinglian168/xianlin-website （公开）
 # 线上地址：https://qinglian168.github.io/xianlin-website/
+# 部署进度：https://github.com/Qinglian168/xianlin-website/actions
 # ============================================================
 set -e
-
-# 切到脚本所在目录（即项目根目录）
 cd "$(dirname "$0")"
 
 echo "=========================================="
-echo " 贤霖科技官网 - 一键推送到 GitHub"
+echo " 贤霖科技官网 - 一键上线"
 echo "=========================================="
 
-# 1) 检查是否是 Git 仓库
+# ---------- 0. 环境检查 ----------
 if ! git rev-parse --git-dir >/dev/null 2>&1; then
-  echo ""
   echo "[错误] 当前目录不是 Git 仓库。"
-  echo "       请先初始化："
-  echo "         git init"
-  echo "         git remote add origin https://github.com/Qinglian168/xianlin-website.git"
   exit 1
 fi
 
-# 2) 检查远端配置
 REMOTE=$(git remote get-url origin 2>/dev/null || echo "")
 if [ -z "$REMOTE" ]; then
-  echo ""
   echo "[错误] 未配置 origin 远端仓库。"
-  echo "       请运行："
-  echo "         git remote add origin https://github.com/Qinglian168/xianlin-website.git"
+  echo "       请运行：git remote add origin https://github.com/Qinglian168/xianlin-website.git"
   exit 1
 fi
-echo " 远端仓库：$REMOTE"
+
+if ! command -v node >/dev/null 2>&1; then
+  echo "[错误] 未找到 node 命令，无法构建静态站。"
+  echo "       请先安装 Node.js：https://nodejs.org"
+  exit 1
+fi
+
+if ! nc -z 127.0.0.1 7897 2>/dev/null; then
+  echo "⚠️  未检测到代理服务（127.0.0.1:7897）。"
+  echo "    大陆网络直连 GitHub 会失败，请先打开 Clash Verge 再运行本脚本。"
+  echo ""
+fi
+
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
-echo " 当前分支：$BRANCH"
+echo " 仓库：$REMOTE"
+echo " 分支：$BRANCH"
 echo ""
 
-# 3) 获取 commit 说明（优先使用参数，否则询问）
+# ---------- 1. 提交说明 ----------
 if [ -n "${1:-}" ]; then
   MSG="$1"
 else
-  echo -n "📝 请输入本次改动的简要说明（直接回车用时间戳）："
+  printf "本次改动说明（直接回车用时间戳）："
   read -r MSG
-  if [ -z "$MSG" ]; then
-    MSG="更新于 $(date '+%Y-%m-%d %H:%M')"
-  fi
+  [ -z "$MSG" ] && MSG="更新于 $(date '+%Y-%m-%d %H:%M')"
 fi
 
-# 4) git add
+# ---------- 2. 构建静态站 ----------
 echo ""
-echo "[1/4] 添加所有改动..."
+echo "[1/3] 构建静态站（读 data/*.json → 生成 dist/）..."
+node build.js
+
+# ---------- 3. 提交并推送源码 ----------
+echo ""
+echo "[2/3] 提交并推送源码到 $BRANCH..."
 git add -A
-
-# 如果没有改动，直接退出
 if git diff --cached --quiet; then
-  echo ""
-  echo "✓ 没有新的改动，无需推送。"
-  exit 0
-fi
-
-# 5) 显示将要提交的文件清单（让用户确认）
-echo ""
-echo "[2/4] 本次提交的文件："
-git diff --cached --stat | sed 's/^/      /'
-echo ""
-
-# 6) git commit
-echo "[3/4] 提交：$MSG"
-git commit -m "$MSG"
-
-# 7) git push（处理首次推送需要 -u 的情况）
-echo ""
-echo "[4/4] 推送到 GitHub..."
-UPSTREAM=$(git rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>/dev/null || echo "")
-if [ -z "$UPSTREAM" ]; then
-  echo "（首次推送，自动设置 upstream）"
-  git push -u origin "$BRANCH"
+  echo "      （源码无改动，跳过提交）"
 else
-  git push
+  git commit -m "$MSG"
 fi
+git push origin "$BRANCH"
+
+# ---------- 4. 发布 dist 到 gh-pages 分支 ----------
+echo ""
+echo "[3/3] 发布静态文件到 gh-pages 分支..."
+DEPLOY_TMP=$(mktemp -d)
+cp -R dist/. "$DEPLOY_TMP/"
+(
+  cd "$DEPLOY_TMP"
+  git init -q
+  git checkout -q -b gh-pages
+  git add -A
+  git commit -q -m "$MSG"
+  git remote add origin "$REMOTE"
+  git push -q -f origin gh-pages
+)
+rm -rf "$DEPLOY_TMP"
 
 echo ""
 echo "=========================================="
-echo " ✓ 推送成功！"
+echo " ✓ 上线成功！"
 echo ""
-echo " 下一步："
-echo "   • GitHub Actions 会自动构建（node build.js）并部署到 GitHub Pages"
-echo "   • 一般 1~2 分钟后线上生效"
-echo "   • 部署进度：https://github.com/Qinglian168/xianlin-website/actions"
-echo "   • 线上地址：https://qinglian168.github.io/xianlin-website/"
+echo " 线上地址：https://qinglian168.github.io/xianlin-website/"
+echo " 约 1 分钟后生效（浏览器按 Cmd+Shift+R 强制刷新）"
 echo "=========================================="
