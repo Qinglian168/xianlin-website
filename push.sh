@@ -110,11 +110,30 @@ esac
     echo "      （网站内容无变化，跳过发布）"
   else
     git commit -q -m "$MSG"
-    git -c http.postBuffer=524288000 \
-        -c http.version=HTTP/1.1 \
-        -c http.lowSpeedLimit=1000 \
-        -c http.lowSpeedTime=300 \
-        push -q origin gh-pages
+
+    # 推送（经代理上传偶有中断，自动重试最多 5 次）
+    pushed=0
+    for i in 1 2 3 4 5; do
+      if git -c http.postBuffer=524288000 \
+             -c http.version=HTTP/1.1 \
+             -c http.lowSpeedLimit=1000 \
+             -c http.lowSpeedTime=300 \
+             push -q origin gh-pages 2>/dev/null; then
+        pushed=1
+        break
+      fi
+      echo "      上传中断，5 秒后重试（第 $i/5 次）..."
+      sleep 5
+    done
+
+    if [ "$pushed" != "1" ]; then
+      echo ""
+      echo "[错误] 静态文件上传失败。请检查："
+      echo "       1. Clash Verge 是否正常运行（代理端口 7897）"
+      echo "       2. 网络是否稳定"
+      echo "       然后重新运行：bash push.sh \"说明\""
+      exit 1
+    fi
   fi
 )
 rm -rf "$DEPLOY_TMP"
