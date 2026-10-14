@@ -79,16 +79,43 @@ git push origin "$BRANCH"
 # ---------- 4. 发布 dist 到 gh-pages 分支 ----------
 echo ""
 echo "[3/3] 发布静态文件到 gh-pages 分支..."
+PROJECT_DIR="$(pwd)"
 DEPLOY_TMP=$(mktemp -d)
-cp -R dist/. "$DEPLOY_TMP/"
+
+# 安全校验：确保只在系统临时目录里做清理操作
+case "$DEPLOY_TMP" in
+  /var/folders/*|/tmp/*) ;;
+  *) echo "[错误] 临时目录路径异常，已中止。"; exit 1 ;;
+esac
+
 (
   cd "$DEPLOY_TMP"
   git init -q
-  git checkout -q -b gh-pages
-  git add -A
-  git commit -q -m "$MSG"
   git remote add origin "$REMOTE"
-  git push -q -f origin gh-pages
+
+  # 拉取已有 gh-pages 做增量提交：只上传变化的文件，避免全量 6MB 导致网络超时
+  if git fetch -q --depth=1 origin gh-pages 2>/dev/null; then
+    git checkout -q -b gh-pages FETCH_HEAD
+    find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} + 2>/dev/null || true
+    echo "      （增量更新）"
+  else
+    git checkout -q -b gh-pages
+    echo "      （首次全量发布，约需 10~30 秒）"
+  fi
+
+  cp -R "$PROJECT_DIR/dist/." .
+  git add -A
+
+  if git diff --cached --quiet; then
+    echo "      （网站内容无变化，跳过发布）"
+  else
+    git commit -q -m "$MSG"
+    git -c http.postBuffer=524288000 \
+        -c http.version=HTTP/1.1 \
+        -c http.lowSpeedLimit=1000 \
+        -c http.lowSpeedTime=300 \
+        push -q origin gh-pages
+  fi
 )
 rm -rf "$DEPLOY_TMP"
 
