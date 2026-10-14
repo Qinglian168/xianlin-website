@@ -11,8 +11,14 @@ const path = require('path');
 const ROOT = __dirname;
 const DIST = path.join(ROOT, 'dist');
 
-// ---------- 0. 准备 dist（不删整个目录，只确保存在） ----------
-if (!fs.existsSync(DIST)) fs.mkdirSync(DIST, { recursive: true });
+// ---------- 0. 准备 dist（清空内容后重建，避免旧文件残留） ----------
+if (fs.existsSync(DIST)) {
+  for (const entry of fs.readdirSync(DIST)) {
+    fs.rmSync(path.join(DIST, entry), { recursive: true, force: true });
+  }
+} else {
+  fs.mkdirSync(DIST, { recursive: true });
+}
 
 // ---------- 1. 读取数据 ----------
 const products = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/products.json'), 'utf8'));

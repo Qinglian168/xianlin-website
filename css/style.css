@@ -245,7 +245,7 @@ ul {
   position: relative;
   min-height: 520px;
   max-height: 560px;
-  background: #bae6fd url('../images/hero-banner.png?v=3') center/cover no-repeat;
+  background: #bae6fd url('../images/hero-banner.jpg?v=4') center/cover no-repeat;
   display: flex;
   align-items: center;
   padding-top: 72px;
@@ -920,7 +920,7 @@ section {
 
 /* Products Page Hero (with banner image) */
 .page-hero-products {
-  background: #bae6fd url('../images/products-banner.png?v=3') center/cover no-repeat;
+  background: #bae6fd url('../images/products-banner.jpg?v=4') center/cover no-repeat;
   min-height: 360px;
   padding: 90px 0 56px;
   text-align: center;
@@ -965,7 +965,7 @@ section {
 
 /* Solutions Page Hero (with banner image) */
 .page-hero-solutions {
-  background: #bae6fd url('../images/solutions-banner.png?v=3') center/cover no-repeat;
+  background: #bae6fd url('../images/solutions-banner.jpg?v=4') center/cover no-repeat;
   background-position: right center;
   min-height: 360px;
   padding: 90px 0 56px;
