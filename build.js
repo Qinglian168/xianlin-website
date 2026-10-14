@@ -12,12 +12,18 @@ const ROOT = __dirname;
 const DIST = path.join(ROOT, 'dist');
 
 // ---------- 0. 准备 dist（清空内容后重建，避免旧文件残留） ----------
-if (fs.existsSync(DIST)) {
-  for (const entry of fs.readdirSync(DIST)) {
-    fs.rmSync(path.join(DIST, entry), { recursive: true, force: true });
+// 优先清空；若运行环境限制了批量删除（如安全沙箱），则降级为覆盖写入，不中断构建
+try {
+  if (fs.existsSync(DIST)) {
+    for (const entry of fs.readdirSync(DIST)) {
+      fs.rmSync(path.join(DIST, entry), { recursive: true, force: true });
+    }
+  } else {
+    fs.mkdirSync(DIST, { recursive: true });
   }
-} else {
-  fs.mkdirSync(DIST, { recursive: true });
+} catch (e) {
+  console.warn('⚠️  无法自动清空 dist（' + (e.code || e.message) + '），改用覆盖写入模式');
+  if (!fs.existsSync(DIST)) fs.mkdirSync(DIST, { recursive: true });
 }
 
 // ---------- 1. 读取数据 ----------
