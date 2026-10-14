@@ -294,15 +294,10 @@ function renderArticle(article, articles) {
 
 (async function initArticle() {
   const rawId = parseInt(getQueryParam('id'), 10);
-  let articles = [];
-  try {
-    const res = await fetch('/api/news');
-    const json = await res.json();
-    articles = (json && json.data) || [];
-  } catch (e) {}
+  const articles = await window.fetchSiteData('news');
   if (!articles.length) {
     document.querySelector('.article-wrap').innerHTML =
-      '<div style="padding:80px 0;text-align:center;color:#64748b;">新闻数据加载失败，请刷新页面重试（本地预览请通过 http://localhost:8080 访问）。</div>';
+      '<div style="padding:80px 0;text-align:center;color:#64748b;">新闻数据加载失败，请刷新页面重试。</div>';
     return;
   }
   const article = articles.find(a => a.id === rawId) || articles[0];

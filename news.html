@@ -188,15 +188,12 @@ function escapeHtml(s) {
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
+// ===== 加载新闻（本地服务器走接口，静态托管自动读 data/news.json）=====
 async function loadNews() {
   const listEl = document.getElementById('news-list');
-  let news = [];
-  try {
-    const res = await fetch('/api/news');
-    const json = await res.json();
-    news = (json && json.data) || [];
-  } catch (e) {
-    listEl.innerHTML = '<div class="empty-tip">新闻数据加载失败，请刷新页面重试（本地预览请通过 http://localhost:8080 访问）。</div>';
+  const news = await window.fetchSiteData('news');
+  if (!news.length) {
+    listEl.innerHTML = '<div class="empty-tip">新闻数据加载失败，请刷新页面重试。</div>';
     return;
   }
   renderNews(news);

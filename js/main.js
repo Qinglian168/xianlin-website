@@ -1,5 +1,28 @@
 // 贤霖科技 网站交互脚本
 
+// ===== 站点数据加载（同时兼容两种部署方式）=====
+// 1) 本地 / 云端 Node 服务器：优先走 /api/xxx 实时接口（能读到后台最新修改）
+// 2) 纯静态托管（GitHub Pages / Cloudflare Pages 等）：接口不可用时自动读取 data/xxx.json
+window.fetchSiteData = async function(type) {
+  try {
+    var res = await fetch('/api/' + type, { cache: 'no-store' });
+    var ct = res.headers.get('content-type') || '';
+    if (res.ok && ct.indexOf('json') !== -1) {
+      var json = await res.json();
+      if (json && Array.isArray(json.data)) return json.data;
+    }
+  } catch (e) { /* 静态托管环境没有后端接口，忽略 */ }
+  try {
+    var res2 = await fetch('data/' + type + '.json', { cache: 'no-store' });
+    if (res2.ok) {
+      var json2 = await res2.json();
+      if (Array.isArray(json2)) return json2;
+      if (json2 && Array.isArray(json2.data)) return json2.data;
+    }
+  } catch (e) {}
+  return [];
+};
+
 document.addEventListener('DOMContentLoaded', function() {
   // 导航栏滚动效果
   const navbar = document.querySelector('.navbar');

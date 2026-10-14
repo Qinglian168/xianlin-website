@@ -16,7 +16,13 @@ data/stats.json
 nohup.out
 *.log
 
+# 构建产物（由 GitHub Actions 自动执行 node build.js 生成，无需上传；
+# 需要本地预览时自己跑一次 node build.js 即可）
+dist/
+
 # 注意：以下内容【需要】上传，别误删：
 # - data/products.json、data/news.json（网站内容数据）
 # - images/ 全部图片
 # - 所有 .html/.css/.js 文件
+# - build.js（构建脚本，Actions 靠它生成网站）
+# - .github/workflows/deploy.yml（自动部署配置）

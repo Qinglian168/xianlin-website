@@ -1,0 +1,56 @@
+name: 构建并部署到 GitHub Pages
+
+# 触发条件：push 到 main 分支时自动构建部署；也可在 Actions 页面手动点击运行
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# 部署到 GitHub Pages 所需权限
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一时间只跑一个部署任务，避免并发冲突
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  # ---------- 第一步：构建静态站 ----------
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 构建静态站（读 data/*.json → 生成 dist/）
+        run: node build.js
+
+      - name: 配置 GitHub Pages（首次运行自动启用）
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: 上传构建产物
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  # ---------- 第二步：发布上线 ----------
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: 部署到 GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
