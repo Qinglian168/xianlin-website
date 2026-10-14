@@ -1,0 +1,782 @@
+[
+  {
+    "id": 1,
+    "name": "华为 S5731-S 系列交换机",
+    "brand": "Huawei",
+    "category": "switch",
+    "image": "images/products/p01-huawei-s5731s.svg",
+    "desc": "增强型千兆以太网交换机，支持 24/48 口千兆接入与万兆上行，适用于企业园区、楼宇办公等中高密度接入场景。",
+    "specs": {
+      "端口": "24/48×GE + 4×10GE SFP+",
+      "交换容量": "598Gbps",
+      "包转发率": "252Mpps",
+      "供电": "可选 PoE/PoE+",
+      "管理": "Web/CLI/SNMP"
+    },
+    "scenarios": [
+      "企业办公网络",
+      "楼宇弱电系统",
+      "安防监控专网"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "H3C S5560-EI 交换机",
+    "brand": "H3C",
+    "category": "switch",
+    "image": "images/products/p02-h3c-s5560ei.svg",
+    "desc": "三层千兆以太网交换机，支持 PoE 供电与丰富的路由协议，适合作为汇聚层或中小型核心使用。",
+    "specs": {
+      "端口": "24/48×GE + 4×10GE SFP+",
+      "交换容量": "598Gbps",
+      "包转发率": "252Mpps",
+      "供电": "PoE+ 可选",
+      "管理": "Web/CLI/SNMP"
+    },
+    "scenarios": [
+      "园区汇聚",
+      "中小型核心",
+      "无线 AP 接入"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "TP-LINK TL-SG3424",
+    "brand": "TP-LINK",
+    "category": "switch",
+    "image": "images/products/p03-tplink-tlsg3424.svg",
+    "desc": "24 口千兆管理型交换机，支持 Web 管理与 VLAN 划分，性价比高，适合中小企业办公网络。",
+    "specs": {
+      "端口": "24×GE + 4×SFP",
+      "交换容量": "56Gbps",
+      "包转发率": "41.7Mpps",
+      "供电": "非 PoE",
+      "管理": "Web/CLI"
+    },
+    "scenarios": [
+      "中小企业办公",
+      "门店网络",
+      "教室多媒体"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "锐捷 RG-S5750 交换机",
+    "brand": "Ruijie",
+    "category": "switch",
+    "image": "images/products/p04-ruijie-rgs5750.svg",
+    "desc": "多业务三层交换机，万兆上行，支持丰富的安全特性，适合教育、政府、医疗等行业组网。",
+    "specs": {
+      "端口": "24/48×GE + 4×10GE",
+      "交换容量": "598Gbps",
+      "包转发率": "252Mpps",
+      "供电": "PoE+ 可选",
+      "管理": "Web/CLI/SNMP"
+    },
+    "scenarios": [
+      "智慧校园",
+      "医院内网",
+      "政务网络"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Cisco Catalyst 9200",
+    "brand": "Cisco",
+    "category": "switch",
+    "image": "images/products/p05-cisco-c9200.svg",
+    "desc": "企业级可堆叠交换机，千兆接入，支持 Cisco DNA 就绪特性，提供企业级安全与可扩展性。",
+    "specs": {
+      "端口": "24/48×GE + 4×10GE",
+      "交换容量": "128Gbps",
+      "包转发率": "190.4Mpps",
+      "供电": "PoE+ 可选",
+      "管理": "CLI/DNA Center"
+    },
+    "scenarios": [
+      "外资企业",
+      "大型园区",
+      "数据中心接入"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "华为 S6730 数据中心交换机",
+    "brand": "Huawei",
+    "category": "switch",
+    "image": "images/products/p06-huawei-s6730.svg",
+    "desc": "万兆/四万兆高密度数据中心级交换机，低时延、高可靠，满足云计算与数据中心高带宽需求。",
+    "specs": {
+      "端口": "24/48×10GE + 6×100GE",
+      "交换容量": "2.56Tbps",
+      "包转发率": "960Mpps",
+      "供电": "双电源",
+      "管理": "CLI/NetConf"
+    },
+    "scenarios": [
+      "数据中心",
+      "云计算节点",
+      "高性能计算"
+    ]
+  },
+  {
+    "id": 7,
+    "name": "华为 NetEngine AR6280",
+    "brand": "Huawei",
+    "category": "router",
+    "image": "images/products/p07-huawei-ar6280.svg",
+    "desc": "多 WAN 口企业级路由器，支持 VPN/MPLS、策略路由、IPS/AV 等高级功能，适合总部与分支互联。",
+    "specs": {
+      "WAN 口": "多 GE/10GE 可选",
+      "VPN": "IPSec/SSL/MPLS",
+      "转发性能": "高达 10Gbps",
+      "安全": "内置防火墙",
+      "管理": "Web/CLI/eSight"
+    },
+    "scenarios": [
+      "企业总部",
+      "大型分支",
+      "多站点互联"
+    ]
+  },
+  {
+    "id": 8,
+    "name": "H3C MSR36-40 路由器",
+    "brand": "H3C",
+    "category": "router",
+    "image": "images/products/p08-h3c-msr3640.svg",
+    "desc": "企业级多业务路由平台，模块化设计，支持 SD-WAN、4G/5G 扩展，满足分支灵活接入需求。",
+    "specs": {
+      "槽位": "模块化接口",
+      "VPN": "IPSec/L2TP/GRE",
+      "转发性能": "可达 4Gbps",
+      "扩展": "4G/5G/语音",
+      "管理": "Web/CLI"
+    },
+    "scenarios": [
+      "企业分支",
+      "连锁门店",
+      "移动办公"
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Cisco ISR 4321 路由器",
+    "brand": "Cisco",
+    "category": "router",
+    "image": "images/products/p09-cisco-isr4321.svg",
+    "desc": "集成多业务路由器，支持 SD-WAN、安全、统一通信，适合中小型分支与混合云接入。",
+    "specs": {
+      "端口": "2×GE + 模块化",
+      "VPN": "IPSec/SSL",
+      "转发性能": "100Mbps-1Gbps",
+      "安全": "IOS 防火墙",
+      "管理": "CLI/DNA Center"
+    },
+    "scenarios": [
+      "中小分支",
+      "混合云接入",
+      "安全组网"
+    ]
+  },
+  {
+    "id": 10,
+    "name": "TP-LINK TL-ER5120T",
+    "brand": "TP-LINK",
+    "category": "router",
+    "image": "images/products/p10-tplink-tler5120t.svg",
+    "desc": "企业级 VPN 路由器，多 WAN 口负载均衡，支持上网行为管理与智能流控，性价比突出。",
+    "specs": {
+      "WAN 口": "4×GE",
+      "LAN 口": "1×GE",
+      "VPN": "IPSec/PPTP/L2TP",
+      "带机量": "200-300",
+      "管理": "Web"
+    },
+    "scenarios": [
+      "中小企业",
+      "酒店餐饮",
+      "商铺连锁"
+    ]
+  },
+  {
+    "id": 11,
+    "name": "华为 AirEngine 6760",
+    "brand": "Huawei",
+    "category": "ap",
+    "image": "images/products/p11-huawei-airengine6760.svg",
+    "desc": "Wi-Fi 6 吸顶式 AP，高并发覆盖，智能天线，适用于会议室、办公区等高密场景。",
+    "specs": {
+      "协议": "Wi-Fi 6",
+      "速率": "5.95Gbps",
+      "频段": "2.4G/5G 双频",
+      "供电": "PoE++",
+      "天线": "内置智能天线"
+    },
+    "scenarios": [
+      "会议室",
+      "开放式办公",
+      "教育场馆"
+    ]
+  },
+  {
+    "id": 12,
+    "name": "锐捷 RG-AP840",
+    "brand": "Ruijie",
+    "category": "ap",
+    "image": "images/products/p12-ruijie-rgap840.svg",
+    "desc": "Wi-Fi 6 双频无线 AP，支持无缝漫游与智能射频调优，适合校园、医院等场景覆盖。",
+    "specs": {
+      "协议": "Wi-Fi 6",
+      "速率": "5.95Gbps",
+      "频段": "2.4G/5G 双频",
+      "供电": "PoE++",
+      "天线": "内置全向天线"
+    },
+    "scenarios": [
+      "智慧校园",
+      "医院病房",
+      "体育场馆"
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Ubiquiti U6-Pro",
+    "brand": "Ubiquiti",
+    "category": "ap",
+    "image": "images/products/p13-ubiquiti-u6pro.svg",
+    "desc": "UniFi Wi-Fi 6 专业版 AP，高密度覆盖，配合 UniFi 控制器实现统一管理。",
+    "specs": {
+      "协议": "Wi-Fi 6",
+      "速率": "5.3Gbps",
+      "频段": "2.4G/5G 双频",
+      "供电": "PoE+",
+      "管理": "UniFi Controller"
+    },
+    "scenarios": [
+      "企业办公",
+      "仓库车间",
+      "高密度场馆"
+    ]
+  },
+  {
+    "id": 14,
+    "name": "TP-LINK TL-AP4650GC",
+    "brand": "TP-LINK",
+    "category": "ap",
+    "image": "images/products/p14-tplink-tlap4650gc.svg",
+    "desc": "吸顶式 Wi-Fi 6 AP，千兆 PoE 供电，适合中小场景无线覆盖。",
+    "specs": {
+      "协议": "Wi-Fi 6",
+      "速率": "3Gbps",
+      "频段": "2.4G/5G",
+      "供电": "PoE",
+      "天线": "内置全向"
+    },
+    "scenarios": [
+      "商铺",
+      "餐厅",
+      "小型办公"
+    ]
+  },
+  {
+    "id": 15,
+    "name": "华为 USG6500E 防火墙",
+    "brand": "Huawei",
+    "category": "security",
+    "image": "images/products/p15-huawei-usg6500e.svg",
+    "desc": "下一代企业级防火墙，集成入侵防御、应用识别、病毒防护，保障企业边界安全。",
+    "specs": {
+      "吞吐量": "1Gbps-10Gbps",
+      "并发连接": "200万-500万",
+      "VPN": "IPSec/SSL",
+      "功能": "IPS/AV/URL",
+      "接口": "多 GE/10GE"
+    },
+    "scenarios": [
+      "企业边界",
+      "数据中心出口",
+      "多分支互联"
+    ]
+  },
+  {
+    "id": 16,
+    "name": "华为 USG6000E 防火墙",
+    "brand": "Huawei",
+    "category": "security",
+    "image": "images/products/p16-huawei-usg6000e.svg",
+    "desc": "中小企业安全网关，集成 VPN、IPS、上网行为管理，部署灵活，维护简单。",
+    "specs": {
+      "吞吐量": "500Mbps-2Gbps",
+      "并发连接": "50万-200万",
+      "VPN": "IPSec/SSL",
+      "功能": "IPS/AV/应用控制",
+      "接口": "多 GE"
+    },
+    "scenarios": [
+      "中小企业",
+      "分支出口",
+      "连锁门店"
+    ]
+  },
+  {
+    "id": 17,
+    "name": "H3C SecPath 防火墙",
+    "brand": "H3C",
+    "category": "security",
+    "image": "images/products/p17-h3c-secpath-fw.svg",
+    "desc": "企业级安全网关，多业务安全防护，支持虚拟系统与高级威胁检测。",
+    "specs": {
+      "吞吐量": "1Gbps-20Gbps",
+      "并发连接": "200万-1000万",
+      "VPN": "IPSec/SSL",
+      "功能": "IPS/AV/沙箱",
+      "接口": "多 GE/10GE"
+    },
+    "scenarios": [
+      "企业边界",
+      "等保合规",
+      "数据中心"
+    ]
+  },
+  {
+    "id": 18,
+    "name": "H3C SecPath VPN网关",
+    "brand": "H3C",
+    "category": "security",
+    "image": "images/products/p18-h3c-secpath-vpn.svg",
+    "desc": "VPN 安全接入设备，支持 IPSec/SSL 远程接入，保障远程办公安全。",
+    "specs": {
+      "VPN 吞吐": "500Mbps-5Gbps",
+      "并发隧道": "1000-20000",
+      "协议": "IPSec/SSL/L2TP",
+      "认证": "LDAP/RADIUS/AD",
+      "接口": "多 GE"
+    },
+    "scenarios": [
+      "远程办公",
+      "分支互联",
+      "移动接入"
+    ]
+  },
+  {
+    "id": 19,
+    "name": "Dell PowerEdge R750",
+    "brand": "DELL",
+    "category": "server",
+    "image": "images/products/p19-dell-r750.svg",
+    "desc": "2U 机架式服务器，支持第三代英特尔至强可扩展处理器，适合数据库、虚拟化与 AI 推理。",
+    "specs": {
+      "形态": "2U 机架式",
+      "CPU": "2×英特尔至强",
+      "内存": "多达 32 个 DIMM",
+      "存储": "多达 16 个 2.5\" 盘位",
+      "扩展": "支持 GPU"
+    },
+    "scenarios": [
+      "虚拟化平台",
+      "数据库",
+      "AI 推理"
+    ]
+  },
+  {
+    "id": 20,
+    "name": "Dell PowerEdge R650",
+    "brand": "DELL",
+    "category": "server",
+    "image": "images/products/p20-dell-r650.svg",
+    "desc": "1U 高密度服务器，双路至强处理器，适合高密度计算与 Web 应用。",
+    "specs": {
+      "形态": "1U 机架式",
+      "CPU": "2×英特尔至强",
+      "内存": "多达 32 个 DIMM",
+      "存储": "多达 10 个 2.5\" 盘位",
+      "扩展": "OCP 3.0"
+    },
+    "scenarios": [
+      "Web 应用",
+      "高密度计算",
+      "边缘节点"
+    ]
+  },
+  {
+    "id": 21,
+    "name": "华为 FusionServer 2288H",
+    "brand": "Huawei",
+    "category": "server",
+    "image": "images/products/p21-huawei-2288h.svg",
+    "desc": "2U 机架式服务器，支持 AI 算力扩展，适合云计算、大数据与存储场景。",
+    "specs": {
+      "形态": "2U 机架式",
+      "CPU": "2×鲲鹏/至强",
+      "内存": "多达 32 个 DIMM",
+      "存储": "多达 27 个 2.5\" 盘位",
+      "扩展": "支持 AI 加速卡"
+    },
+    "scenarios": [
+      "云计算",
+      "大数据",
+      "分布式存储"
+    ]
+  },
+  {
+    "id": 22,
+    "name": "海康威视 DS-2CD3T86",
+    "brand": "Hikvision",
+    "category": "surveillance",
+    "image": "images/products/p22-hikvision-ds2cd3t86.svg",
+    "desc": "4K 网络高清摄像机，智能 AI 抓拍，支持 H.265 编码，适合室外监控场景。",
+    "specs": {
+      "分辨率": "4K",
+      "编码": "H.265/H.264",
+      "补光": "红外 80m",
+      "防护": "IP67",
+      "智能": "AI 人/车检测"
+    },
+    "scenarios": [
+      "园区周界",
+      "道路监控",
+      "仓库安防"
+    ]
+  },
+  {
+    "id": 23,
+    "name": "海康威视 DS-7608NI-K2",
+    "brand": "Hikvision",
+    "category": "surveillance",
+    "image": "images/products/p23-hikvision-ds7608ni.svg",
+    "desc": "8 路 NVR 网络录像机，4K 解码输出，支持智能侦测与远程查看。",
+    "specs": {
+      "接入路数": "8 路",
+      "解码": "4K",
+      "硬盘位": "2 盘位",
+      "网络": "1×GE",
+      "智能": "移动侦测/越界"
+    },
+    "scenarios": [
+      "小型商铺",
+      "家庭别墅",
+      "办公室"
+    ]
+  },
+  {
+    "id": 24,
+    "name": "大华 DH-IPC-HFW5442",
+    "brand": "Dahua",
+    "category": "surveillance",
+    "image": "images/products/p24-dahua-dhipc.svg",
+    "desc": "400 万像素网络摄像机，星光级夜视，支持智能分析与宽动态。",
+    "specs": {
+      "分辨率": "4MP",
+      "编码": "H.265",
+      "补光": "红外 50m",
+      "防护": "IP67",
+      "智能": "人脸检测/周界"
+    },
+    "scenarios": [
+      "园区监控",
+      "停车场",
+      "楼道出入口"
+    ]
+  },
+  {
+    "id": 25,
+    "name": "Yealink MeetingEye 500",
+    "brand": "Yealink",
+    "category": "conference",
+    "image": "images/products/p25-yealink-meetingeye500.svg",
+    "desc": "4K 视频会议终端，一体式设计，支持 AI 取景与智能降噪，适合中小型会议室。",
+    "specs": {
+      "视频": "4K",
+      "摄像头": "1200 万像素",
+      "拾音": "内置麦克风阵列",
+      "接口": "HDMI/USB",
+      "兼容": "SIP/H.323"
+    },
+    "scenarios": [
+      "中小型会议室",
+      "远程培训",
+      "远程面试"
+    ]
+  },
+  {
+    "id": 26,
+    "name": "Yealink CP960 会议电话",
+    "brand": "Yealink",
+    "category": "conference",
+    "image": "images/products/p26-yealink-cp960.svg",
+    "desc": "高清语音会议电话，360° 拾音，支持级联扩展，适合中大型会议室。",
+    "specs": {
+      "拾音": "360° 6 米",
+      "麦克风": "内置 3 阵列",
+      "接口": "USB/蓝牙",
+      "级联": "支持",
+      "协议": "SIP"
+    },
+    "scenarios": [
+      "中大型会议室",
+      "董事会",
+      "远程会议"
+    ]
+  },
+  {
+    "id": 27,
+    "name": "Grandstream GXV3370",
+    "brand": "Grandstream",
+    "category": "conference",
+    "image": "images/products/p27-grandstream-gxv3370.svg",
+    "desc": "安卓视频 IP 电话，7 英寸触摸屏，支持视频会议与统一通信应用。",
+    "specs": {
+      "屏幕": "7 英寸触控",
+      "视频": "720p",
+      "系统": "Android",
+      "接口": "双 GE",
+      "协议": "SIP"
+    },
+    "scenarios": [
+      "高管桌面",
+      "视频客服",
+      "统一通信"
+    ]
+  },
+  {
+    "id": 28,
+    "name": "42U 标准网络机柜",
+    "brand": "多品牌",
+    "category": "datacenter",
+    "image": "images/products/p28-cabinet-42u.svg",
+    "desc": "19 英寸标准网络机柜，600×1000mm，钢化玻璃前门，承载能力强，适用于机房与弱电间。",
+    "specs": {
+      "高度": "42U",
+      "宽度": "600mm",
+      "深度": "1000mm",
+      "承重": "≥1000kg",
+      "材质": "SPCC 冷轧钢"
+    },
+    "scenarios": [
+      "数据中心",
+      "弱电间",
+      "机房"
+    ]
+  },
+  {
+    "id": 29,
+    "name": "UPS 不间断电源",
+    "brand": "多品牌",
+    "category": "datacenter",
+    "image": "images/products/p29-ups.svg",
+    "desc": "在线式 UPS 电源，3KVA-20KVA 可选，保障服务器与网络设备断电不停机。",
+    "specs": {
+      "容量": "3KVA-20KVA",
+      "拓扑": "在线双变换",
+      "输入": "220V 单相/三相",
+      "电池": "外接电池组",
+      "效率": "≥90%"
+    },
+    "scenarios": [
+      "机房供电",
+      "服务器保护",
+      "网络设备备份"
+    ]
+  },
+  {
+    "id": 30,
+    "name": "机房精密空调",
+    "brand": "多品牌",
+    "category": "datacenter",
+    "image": "images/products/p30-ac.svg",
+    "desc": "机房专用精密空调，恒温恒湿控制，大风量小焓差设计，保障设备稳定运行。",
+    "specs": {
+      "制冷量": "5.5kW-100kW",
+      "温控精度": "±1℃",
+      "湿控精度": "±5%",
+      "送风": "下送风/上送风",
+      "监控": "RS485/SNMP"
+    },
+    "scenarios": [
+      "数据中心",
+      "通信机房",
+      "弱电中心"
+    ]
+  },
+  {
+    "id": 31,
+    "name": "机房操作台",
+    "brand": "多品牌",
+    "category": "datacenter",
+    "image": "images/products/p31-console.svg",
+    "desc": "标准机房操作台/控制台，可根据机房布局定制尺寸，便于监控与运维。",
+    "specs": {
+      "材质": "冷轧钢",
+      "款式": "单联/双联/多联",
+      "颜色": "可定制",
+      "配件": "PDU/显示器支架可选",
+      "尺寸": "按需定制"
+    },
+    "scenarios": [
+      "监控中心",
+      "调度室",
+      "运维中心"
+    ]
+  },
+  {
+    "id": 32,
+    "name": "超六类网线",
+    "brand": "CommScope",
+    "category": "cabling",
+    "image": "images/products/p32-cat6a-cable.svg",
+    "desc": "Cat6A 万兆网线，工程级阻燃线缆，支持 10Gbps 传输，适用于高标准综合布线。",
+    "specs": {
+      "类别": "Cat6A",
+      "带宽": "500MHz",
+      "速率": "10Gbps",
+      "外皮": "LSZH/CMR",
+      "线规": "23AWG"
+    },
+    "scenarios": [
+      "数据中心",
+      "办公布线",
+      "万兆网络"
+    ]
+  },
+  {
+    "id": 33,
+    "name": "24口配线架",
+    "brand": "多品牌",
+    "category": "cabling",
+    "image": "images/products/p33-patchpanel.svg",
+    "desc": "超五类/六类 24 口模块化配线架，便于线缆端接与管理，提升机房整洁度。",
+    "specs": {
+      "端口": "24 口",
+      "类别": "Cat5e/Cat6",
+      "安装": "19 英寸机架",
+      "材质": "金属",
+      "背板": "可拆卸"
+    },
+    "scenarios": [
+      "机房配线",
+      "弱电间",
+      "机柜整理"
+    ]
+  },
+  {
+    "id": 34,
+    "name": "信息模块",
+    "brand": "多品牌",
+    "category": "cabling",
+    "image": "images/products/p34-keystone.svg",
+    "desc": "超五类/六类网络信息模块，免打线设计，安装便捷，接触稳定。",
+    "specs": {
+      "类别": "Cat5e/Cat6",
+      "类型": "免打线",
+      "镀金层": "50μ",
+      "阻燃": "UL94-V0",
+      "颜色": "多色可选"
+    },
+    "scenarios": [
+      "桌面布线",
+      "墙面面板",
+      "机柜端接"
+    ]
+  },
+  {
+    "id": 35,
+    "name": "大对数线缆",
+    "brand": "多品牌",
+    "category": "cabling",
+    "image": "images/products/p35-multipair.svg",
+    "desc": "25 对/50 对/100 对大对数通信线缆，适用于语音、安防与弱电系统主干。",
+    "specs": {
+      "对数": "25/50/100 对",
+      "导体": "无氧铜",
+      "外皮": "PVC/PE",
+      "应用": "语音/安防",
+      "颜色": "灰色/黑色"
+    },
+    "scenarios": [
+      "语音布线",
+      "安防传输",
+      "弱电主干"
+    ]
+  },
+  {
+    "id": 36,
+    "name": "万兆光模块",
+    "brand": "全品牌",
+    "category": "optical",
+    "image": "images/products/p36-sfp-plus.svg",
+    "desc": "10G SFP+ 光模块，多模/单模可选，兼容华为、H3C、Cisco 等主流交换机。",
+    "specs": {
+      "速率": "10Gbps",
+      "封装": "SFP+",
+      "波长": "850nm/1310nm",
+      "距离": "300m/10km/40km",
+      "兼容": "多品牌"
+    },
+    "scenarios": [
+      "数据中心",
+      "核心交换机",
+      "长距离传输"
+    ]
+  },
+  {
+    "id": 37,
+    "name": "光端机",
+    "brand": "全品牌",
+    "category": "optical",
+    "image": "images/products/p37-media-converter.svg",
+    "desc": "视频/数据/以太网光端机，多路传输，将电信号转换为光信号，延长传输距离。",
+    "specs": {
+      "接口": "视频/数据/以太网",
+      "光纤": "单模/多模",
+      "距离": "20km",
+      "路数": "1/4/8/16 路",
+      "防护": "防雷"
+    },
+    "scenarios": [
+      "安防监控",
+      "工业传输",
+      "园区骨干"
+    ]
+  },
+  {
+    "id": 38,
+    "name": "光纤跳线",
+    "brand": "全品牌",
+    "category": "optical",
+    "image": "images/products/p38-fiber-patch.svg",
+    "desc": "LC/SC/FC/ST 单模多模光纤跳线，低插入损耗，用于设备互联与光纤配线。",
+    "specs": {
+      "接头": "LC/SC/FC/ST",
+      "类型": "单模/多模",
+      "长度": "1m/3m/5m/10m",
+      "外护套": "PVC/LSZH",
+      "插入损耗": "≤0.3dB"
+    },
+    "scenarios": [
+      "机房跳线",
+      "ODF 配线",
+      "设备互联"
+    ]
+  },
+  {
+    "id": 39,
+    "name": "光纤收发器",
+    "brand": "全品牌",
+    "category": "optical",
+    "image": "images/products/p39-fiber-transceiver.svg",
+    "desc": "百兆/千兆光纤收发器，单模多模可选，实现光电转换，延长网络传输距离。",
+    "specs": {
+      "速率": "100M/1000M",
+      "光纤": "单模/多模",
+      "距离": "20km",
+      "接口": "RJ45 + SFP/SC",
+      "供电": "外置电源"
+    },
+    "scenarios": [
+      "远距离组网",
+      "监控传输",
+      "工业场景"
+    ]
+  }
+]

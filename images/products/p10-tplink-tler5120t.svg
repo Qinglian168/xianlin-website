@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#e0f2fe"/><stop offset="100%" stop-color="#f0f9ff"/></linearGradient></defs>
+  <rect width="400" height="400" fill="url(#bg)"/>
+  <rect x="90" y="150" width="220" height="70" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="90" y="150" width="220" height="12" rx="8" fill="#22C55E" opacity="0.9"/>
+  <line x1="130" y1="150" x2="110" y2="100" stroke="#64748b" stroke-width="5" stroke-linecap="round"/>
+  <line x1="200" y1="150" x2="200" y2="95" stroke="#64748b" stroke-width="5" stroke-linecap="round"/>
+  <line x1="270" y1="150" x2="290" y2="100" stroke="#64748b" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="120" cy="190" r="5" fill="#22c55e"/>
+  <circle cx="140" cy="190" r="5" fill="#22c55e"/>
+  <circle cx="160" cy="190" r="5" fill="#22c55e"/>
+  <text x="200" y="270" text-anchor="middle" font-size="18" font-weight="700" fill="#334155">TL-ER5120T</text>
+  <text x="200" y="295" text-anchor="middle" font-size="13" fill="#64748b">路由器</text>
+</svg>
